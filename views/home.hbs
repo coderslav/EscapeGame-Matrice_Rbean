@@ -1,0 +1,22 @@
+<div style="margin-top: 30px">
+    <h1 class="text-center mb-5">Display all rooms</h1>
+
+    <table class="table mb-5">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Capacity</th>
+            </tr>
+        </thead>
+        {{#each rooms}}
+            <tr>
+                <td><a href="/room/{{id}}">{{name}}</a></td>
+                <td>{{description}}</td>
+                <td>{{price}}</td>
+                <td>{{capacity.[0].value}} à {{capacity.[1].value}} joueurs</td>
+            </tr>
+        {{/each}}
+    </table>
+</div>

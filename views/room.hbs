@@ -1,0 +1,37 @@
+<div class="mt-5">
+    <h2 class="mb-4">{{roomData.name}}</h2>
+
+    <p><b>Description</b>: {{roomData.description}}</p>
+    <p><b>Age Limit</b>: {{roomData.ageLimit}}</p>
+    <p><b>Capacity</b>: {{ getMinCapacity roomData.capacity }} à {{ getMaxCapacity roomData.capacity }} joueurs</p>
+
+    <h3 class="mt-5 mb-4">Créneaux disponibles</h3>
+
+    {{#if slots.length}}
+        <table class="table mb-5">
+            <thead>
+                <tr>
+                    <th>Jour</th>
+                    <th>Créneau</th>
+                    <th>Réservation</th>
+                </tr>
+            </thead>
+            {{#each slots}}
+                <tr>
+                    <td>{{getDate during}}</td>
+                    <td>{{slotToStr during}}</td>
+                    <td>
+                    {{#if ../user}}
+                        <a href="/slot/{{id}}/book" class="btn btn-primary">Réserver</a>
+                    {{else}}
+                        <a class="btn btn-primary disabled">Réserver</a><br>
+                        <small><em>Connectez-vous pour réserver</em></small>
+                    {{/if}}
+                    </td>
+                </tr>
+            {{/each}}
+        </table>
+    {{else}}
+        Pas de créneaux disponibles.
+    {{/if}}
+</div>

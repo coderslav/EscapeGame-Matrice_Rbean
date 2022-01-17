@@ -1,0 +1,28 @@
+<div style="margin-top: 30px">
+    <h1 class="text-center mb-5">Mes réservations</h1>
+
+    {{#if slots.length}}
+        <table class="table mb-5">
+            <thead>
+                <tr>
+                    <th>Jour</th>
+                    <th>Créneau</th>
+                    <th>Joueurs</th>
+                </tr>
+            </thead>
+            {{#each slots}}
+                <tr>
+                    <td>{{getDate during}}</td>
+                    <td>{{slotToStr during}}</td>
+                    <td>
+                    {{# each players}}
+                        {{firstName}} {{lastName}}<br>
+                    {{/each}}
+                    </td>
+                </tr>
+            {{/each}}
+        </table>
+    {{else}}
+        Vous n'avez pas encore fait de réservations.
+    {{/if}}
+</div>

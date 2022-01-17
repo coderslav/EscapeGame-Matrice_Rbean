@@ -1,0 +1,19 @@
+<div class="offset-2 col-8 my-5">
+    <p>Vous allez réserver la salle {{ slot.room.name }} le {{ getDate slot.during }}
+    sur le créneau {{ slotToStr slot.during }}</p>
+    <p>Cette salle peut accueillir de {{ getMinCapacity slot.room.capacity }} à {{ getMaxCapacity slot.room.capacity }} joueurs.</p>
+
+    <select class= "form-control mt-5 mr-3" id="nbPlayers" name="nbPlayers">
+        <option disabled selected value> -- sélectionnez le nombre de joueurs -- </option>
+    {{#capacityLoop slot.room.capacity}}
+        <option value="{{ this }}">{{ this }} joueurs</option>
+    {{/capacityLoop}}
+    </select>
+
+    <form method="POST">
+        <div id="formPlayers">
+        </div>
+        <button type="submit" class="mt-5 btn btn-primary">Confirmer</button>
+    </form>
+</div>
+<script src="/js/book.js"></script>
