@@ -13,7 +13,8 @@ module.exports = {
           capacity: "(4, 7)",
 //          capacity: [{ value: "4", inclusive: true }, { value: "7", inclusive: true }],
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
+          imgUrl: 'hello'
         },
         {
           name: 'Inspecteur Gadget',
