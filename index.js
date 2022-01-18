@@ -5,21 +5,20 @@ const bodyParser = require('body-parser');
 const util = require('util');
 
 const { hbsHelpers } = require('./helpers/views');
-const { getSessionUser } = require("./helpers/auth");
+const { getSessionUser } = require('./helpers/auth');
 
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
 
-const db = require("./models")
-
+const db = require('./models');
 
 const app = express();
 
 // Set up view engine
 const hbs = exphbs.create({
     extname: '.hbs',
-    helpers: hbsHelpers
-})
+    helpers: hbsHelpers,
+});
 app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
 
@@ -27,7 +26,7 @@ app.set('view engine', 'hbs');
 app.use(express.static('public'));
 
 // Register middlewares
-app.use(bodyParser.urlencoded({ extended: true }));     // parse POST data
+app.use(bodyParser.urlencoded({ extended: true })); // parse POST data
 app.use(cookieParser('secret'));
 app.use(getSessionUser);
 
