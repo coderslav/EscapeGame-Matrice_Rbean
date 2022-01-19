@@ -6,7 +6,7 @@ const { setAuthToken, getHashedPassword } = require('../helpers/auth');
 module.exports = (sequelize, DataTypes) => {
     class User extends Model {
         static associate(models) {
-            this.belongsToMany(models.Slot, { through: models.Booking, foreignKey: { name: 'userId' } });
+            this.belongsToMany(models.Slot, { through: models.Booking, foreignKey: { name: 'userId' }, onDelete: 'CASCADE', onUpdate: 'CASCADE' });
         }
 
         static async authenticate(email, rawPassword, res) {

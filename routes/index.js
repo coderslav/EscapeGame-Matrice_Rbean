@@ -1,6 +1,6 @@
 const { requireAuth } = require('../helpers/auth');
 const { User, Room, Slot, Booking, Player } = require('../models');
-const { Op } = require('sequelize');
+const { Op, where } = require('sequelize');
 
 const express = require('express');
 const router = express.Router();
@@ -77,6 +77,10 @@ router.get('/bookings', requireAuth, async (req, res) => {
     }
 
     res.render('bookings', { slots });
+});
+router.post('/bookings', requireAuth, async (req, res) => {
+    await Booking.destroy({ where: { slotId: req.body.bookingId } });
+    res.send('Nice');
 });
 
 // router.post('/schedule', requireAuth, (req, res) => {
