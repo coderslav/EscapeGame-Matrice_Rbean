@@ -54,7 +54,8 @@ router.post('/slot/:id/book', requireAuth, async (req, res) => {
             user.bookSlot(slot, req.body.players)
                 .then((_) => {
                     if (_) {
-                        res.status(422).send(_.join(', ') + ': to young for!');
+                        let queryString = _.join('-');
+                        res.redirect('/bookings/?ageCheck=' + queryString);
                     } else {
                         res.redirect('/bookings');
                     }
@@ -69,6 +70,11 @@ router.post('/slot/:id/book', requireAuth, async (req, res) => {
 });
 
 router.get('/bookings', requireAuth, async (req, res) => {
+    // if (req.params.ageCheck){
+    //     // split logic
+    //     let listDepr = req.params.ageCheck.split('-')
+    //     res.render('bookings', {slots, listDepr})
+    // }
     const user = await User.findOne({ where: { id: req.user } });
     const slots = await user.getSlots({ raw: true, nest: true });
     for (let slot of slots) {
