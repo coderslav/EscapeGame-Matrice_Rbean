@@ -1,4 +1,4 @@
-<div style="margin-top: 30px">
+{{!-- <div style="margin-top: 30px">
     <h1 class="text-center mb-5">Display all rooms</h1>
 
     <table class="table mb-5">
@@ -12,11 +12,26 @@
         </thead>
         {{#each rooms}}
             <tr>
-                <td><a href="/room/{{id}}">{{name}}</a></td>
+                <td><a href="/room/{{id}}" class="card-title">{{name}}</a>
+                <img src={{imgUrl}} height="100px"></td>
                 <td>{{description}}</td>
                 <td>{{price}}</td>
                 <td>{{capacity.[0].value}} à {{capacity.[1].value}} joueurs</td>
             </tr>
         {{/each}}
     </table>
+</div> --}}
+
+<div class="card-group mt-5">
+    {{#each rooms}}
+        <div class="card mr-2">
+            <img class="card-img-top" src={{imgUrl}} height="100px" alt="Card image cap">
+            <div class="card-body">
+            <h2><a href="/room/{{id}}" class="card-title stretched-link">{{name}}</a></h2>
+            <p class="card-text">{{description}}</p>
+            <p class="card-text">{{capacity.[0].value}} à {{capacity.[1].value}} joueurs</p>
+            <p class="card-text">{{price}}€</p>
+            </div>
+        </div>
+    {{/each}}
 </div>
