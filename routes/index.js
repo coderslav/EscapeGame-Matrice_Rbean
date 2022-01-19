@@ -37,6 +37,7 @@ router.get('/slot/:id/book', requireAuth, (req, res) => {
 
     Slot.findOne({ where: { id }, include: 'room', raw: true, nest: true })
         .then((slot) => {
+            console.log(slot);
             res.render('book', { slot });
         })
         .catch((err) => {
@@ -48,11 +49,15 @@ router.post('/slot/:id/book', requireAuth, async (req, res) => {
     const { id } = req.params;
     const user = await User.findOne({ where: { id: req.user } });
 
-    Slot.findOne({ where: { id } })
+    Slot.findOne({ where: { id }, include: 'room', raw: true, nest: true })
         .then((slot) => {
             user.bookSlot(slot, req.body.players)
                 .then((_) => {
-                    res.redirect('/bookings');
+                    if (_) {
+                        res.status(422).send(_.join(', ') + ': to young for!');
+                    } else {
+                        res.redirect('/bookings');
+                    }
                 })
                 .catch((err) => {
                     console.error(err);
