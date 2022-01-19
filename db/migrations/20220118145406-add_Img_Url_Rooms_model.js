@@ -1,7 +1,5 @@
 'use strict';
 
-const { DataTypes } = require("sequelize/dist");
-
 module.exports = {
   async up (queryInterface, Sequelize) {
     return Promise.all([
@@ -9,7 +7,7 @@ module.exports = {
         'rooms',
         'imgUrl',
         {
-          type: DataTypes.STRING,
+          type: Sequelize.STRING,
           allowNull: true
         }
       )
