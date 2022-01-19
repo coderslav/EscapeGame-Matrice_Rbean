@@ -1,8 +1,8 @@
-<div style="margin-top: 30px">
-    <h1 class="text-center mb-5">Mes réservations</h1>
+<div style='margin-top: 30px'>
+    <h1 class='text-center mb-5'>Mes réservations</h1>
 
     {{#if slots.length}}
-        <table class="table mb-5">
+        <table class='table mb-5'>
             <thead>
                 <tr>
                     <th>Jour</th>
@@ -10,14 +10,18 @@
                     <th>Joueurs</th>
                 </tr>
             </thead>
+            {{! if (listDepr){
+                dsfsdfsd
+            } }}
             {{#each slots}}
                 <tr>
                     <td>{{getDate during}}</td>
                     <td>{{slotToStr during}}</td>
                     <td>
-                    {{# each players}}
-                        {{firstName}} {{lastName}}<br>
-                    {{/each}}
+                        {{#each players}}
+                            {{firstName}}
+                            {{lastName}}<br />
+                        {{/each}}
                     </td>
                 </tr>
             {{/each}}
