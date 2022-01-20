@@ -74,24 +74,19 @@ router.get('/bookings', requireAuth, async (req, res) => {
     const user = await User.findOne({ where: { id: req.user } });
     const slots = await user.getSlots({ raw: true, nest: true });
     let listAge = req.query.ageCheck;
-    // console.log(listAge, 'list age')
-    // list.split('-')
-    // console.log(list.split('-'), 'check')
 
     for (let slot of slots) {
         slot.players = await Player.findAll({ where: { bookingId: slot.Booking.id }, raw: true, nest: true });
     }
 
-    if (listAge){
-        // split logic
-        let list = listAge.split('-')
-        console.log(list, 'list')    
-        res.render('modal', {slots, list})
-        // res.send('<p> hi </p>')
-    } else {
+    // if (listAge){
+    //     let list = listAge.split('-')
+    //     console.log(list, 'list')    
+    //     res.render('modal', {slots, list})
+    // } else {
 
+    // }
         res.render('bookings', { slots });
-    }
 
 });
 
