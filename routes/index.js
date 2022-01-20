@@ -83,15 +83,4 @@ router.post('/bookings', requireAuth, async (req, res) => {
     res.send('Nice');
 });
 
-// router.post('/schedule', requireAuth, (req, res) => {
-//     Schedule.create(req.user, req.body)
-//         .then(_ => { res.redirect("/schedule") })
-//         .catch(msg => {
-//             res.render('schedule', {
-//                 messageClass: 'alert-danger',
-//                 message: msg
-//             })
-//         })
-// });
-
 module.exports = router;
