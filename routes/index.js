@@ -37,7 +37,6 @@ router.get('/slot/:id/book', requireAuth, (req, res) => {
 
     Slot.findOne({ where: { id }, include: 'room', raw: true, nest: true })
         .then((slot) => {
-            console.log(slot);
             res.render('book', { slot });
         })
         .catch((err) => {
@@ -81,6 +80,14 @@ router.get('/bookings', requireAuth, async (req, res) => {
 router.post('/bookings', requireAuth, async (req, res) => {
     await Booking.destroy({ where: { slotId: req.body.bookingId } });
     res.send('Nice');
+});
+
+router.get('/get-current-user', async (req, res) => {
+    const user = await User.findOne({ where: { id: req.user } });
+    res.json({
+        firstName: user.firstName,
+        lastName: user.lastName,
+    });
 });
 
 module.exports = router;
