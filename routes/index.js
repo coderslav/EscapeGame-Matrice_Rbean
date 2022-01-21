@@ -1,4 +1,4 @@
-const { requireAuth } = require('../helpers/auth');
+const { requireAuth, requireAdmin } = require('../helpers/auth');
 const { User, Room, Slot, Booking, Player } = require('../models');
 const { Op, where } = require('sequelize');
 
@@ -82,11 +82,25 @@ router.post('/bookings', requireAuth, async (req, res) => {
     res.send('Nice');
 });
 
-router.get('/get-current-user', async (req, res) => {
+router.post('/get-current-user', requireAuth, async (req, res) => {
     const user = await User.findOne({ where: { id: req.user } });
     res.json({
         firstName: user.firstName,
         lastName: user.lastName,
+    });
+});
+router.get('/admin', requireAdmin, async (req, res) => {
+    const users = User.findAll();
+    const rooms = Room.findAll();
+    const slots = Slot.findAll();
+    const bookings = Booking.findAll();
+    const players = Player.findAll();
+    res.render('admin', {
+        users,
+        rooms,
+        slots,
+        bookings,
+        players,
     });
 });
 

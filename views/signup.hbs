@@ -1,30 +1,34 @@
-<div class="offset-4 col-4 my-5">
-    <form action="/signup" method="POST" >
-        <div class="form-group">
-            <label for="firstNameInput">Prénom</label>
-            <input name="firstName" type="text" class="form-control" id="firstNameInput">
+<div class='offset-4 col-4 my-5'>
+    <form action='/signup' method='POST'>
+        <div class='form-group'>
+            <label for='firstNameInput'>Prénom</label>
+            <input name='firstName' type='text' class='form-control' id='firstNameInput' />
         </div>
 
-        <div class="form-group">
-            <label for="lastNameInput">Nom de famille</label>
-            <input name="lastName" type="text" class="form-control" id="lastNameInput">
+        <div class='form-group'>
+            <label for='lastNameInput'>Nom de famille</label>
+            <input name='lastName' type='text' class='form-control' id='lastNameInput' />
         </div>
 
-        <div class="form-group">
-            <label for="emailInput">Email</label>
-            <input name="email" type="email" class="form-control" id="emailInput" placeholder="Entrez votre adresse mail">
+        <div class='form-group'>
+            <label for='emailInput'>Email</label>
+            <input name='email' type='email' class='form-control' id='emailInput' placeholder='Entrez votre adresse mail' />
         </div>
 
-        <div class="form-group">
-            <label for="passwordInput">Mot de passe</label>
-            <input name="password" type="password" class="form-control" id="passwordInput" placeholder="Mot de passe">
+        <div class='form-group'>
+            <label for='passwordInput'>Mot de passe</label>
+            <input name='password' type='password' class='form-control' id='passwordInput' placeholder='Mot de passe' />
         </div>
 
-        <div class="form-group">
-            <label for="confirmPasswordInput">Confirmation mot de passe</label>
-            <input name="confirmPassword" type="password" class="form-control" id="confirmPasswordInput" placeholder="Entrez de nouveau votre mot de passe">
+        <div class='form-group'>
+            <label for='confirmPasswordInput'>Confirmation mot de passe</label>
+            <input name='confirmPassword' type='password' class='form-control' id='confirmPasswordInput' placeholder='Entrez de nouveau votre mot de passe' />
+        </div>
+        <div class='form-check' style='margin-bottom: 1rem;'>
+            <input name='isAdmin' class='form-check-input' type='checkbox' value='true' id='defaultCheck2' />
+            <label class='form-check-label' for='defaultCheck2'>Administrateur</label>
         </div>
 
-        <button type="submit" class="btn btn-primary">S'inscrire</button>
+        <button type='submit' class='btn btn-primary'>S'inscrire</button>
     </form>
 </div>

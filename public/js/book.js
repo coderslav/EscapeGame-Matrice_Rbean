@@ -55,7 +55,9 @@ function createNthPlayer(n) {
 }
 
 async function getUser(firstName, lastName) {
-    await fetch('/get-current-user')
+    await fetch('/get-current-user', {
+        method: 'POST'
+    })
         .then((response) => response.json())
         .then((data) => {
             firstName.value = data.firstName;
