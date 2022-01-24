@@ -11,10 +11,10 @@ module.exports = (sequelize, DataTypes) => {
 
         static async authenticate(email, rawPassword, res) {
             const password = getHashedPassword(rawPassword);
-            const result = await User.findOne({ where: { email, password }, attributes: ['id'] });
+            const result = await User.findOne({ where: { email, password }, attributes: ['id', 'isAdmin'] });
 
             if (result) {
-                setAuthToken(result.id, res);
+                setAuthToken(result.id, res, result.isAdmin);
                 return true;
             } else {
                 throw 'Invalid username or password';
@@ -22,12 +22,12 @@ module.exports = (sequelize, DataTypes) => {
         }
 
         static async new(userData) {
-            const { email, firstName, lastName, password, confirmPassword } = userData;
+            const { email, firstName, lastName, password, confirmPassword, isAdmin } = userData;
 
             if (password === confirmPassword) {
                 const hashedPassword = getHashedPassword(password);
 
-                return User.create({ email, firstName, lastName, password: hashedPassword });
+                return User.create({ email, firstName, lastName, password: hashedPassword, isAdmin });
             } else {
                 throw 'Passwords do not match.';
             }

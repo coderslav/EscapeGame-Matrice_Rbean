@@ -1,4 +1,4 @@
-const { requireAuth, requireAnon, unsetAuthToken } = require("../helpers/auth")
+const { requireAuth, requireAnon, unsetAuthToken } = require('../helpers/auth');
 const { User, Schedule } = require('../models');
 
 const express = require('express');
@@ -12,12 +12,14 @@ router.post('/login', requireAnon, (req, res) => {
     const { email, password } = req.body;
 
     User.authenticate(email, password, res)
-        .then(_ => { res.redirect('/') })
-        .catch(msg => { 
+        .then((_) => {
+            res.redirect('/');
+        })
+        .catch((msg) => {
             res.render('login', {
                 messageClass: 'alert-danger',
-                message: msg 
-            }) 
+                message: msg,
+            });
         });
 });
 
@@ -31,18 +33,20 @@ router.get('/signup', (req, res) => {
 });
 
 router.post('/signup', (req, res) => {
+    console.log(req.body);
     User.new(req.body)
-        .then(_ => {
+        .then((_) => {
             res.render('login', {
                 messageClass: 'alert-success',
-                message: 'Registration Complete. Please login to continue.'
-            })
-        }).catch(msg => { 
+                message: 'Registration Complete. Please login to continue.',
+            });
+        })
+        .catch((msg) => {
             res.render('signup', {
                 messageClass: 'alert-danger',
-                message: msg
-            }) 
-        })
+                message: msg,
+            });
+        });
 });
 
 module.exports = router;
