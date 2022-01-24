@@ -1,6 +1,6 @@
 const { requireAuth } = require('../helpers/auth');
 const { User, Room, Slot, Booking, Player } = require('../models');
-const { Op } = require('sequelize');
+const { Op, where } = require('sequelize');
 
 const express = require('express');
 const router = express.Router();
@@ -34,7 +34,6 @@ router.get('/room/:id', (req, res) => {
 
 router.get('/slot/:id/book', requireAuth, (req, res) => {
     const { id } = req.params;
-
     Slot.findOne({ where: { id }, include: 'room', raw: true, nest: true })
         .then((slot) => {
             console.log(slot);
@@ -70,7 +69,6 @@ router.post('/slot/:id/book', requireAuth, async (req, res) => {
 });
 
 router.get('/bookings', requireAuth, async (req, res) => {
-
     const user = await User.findOne({ where: { id: req.user } });
     const slots = await user.getSlots({ raw: true, nest: true });
     let listAge = req.query.ageCheck;
@@ -79,26 +77,19 @@ router.get('/bookings', requireAuth, async (req, res) => {
         slot.players = await Player.findAll({ where: { bookingId: slot.Booking.id }, raw: true, nest: true });
     }
 
-    // if (listAge){
-    //     let list = listAge.split('-')
-    //     console.log(list, 'list')    
-    //     res.render('modal', {slots, list})
-    // } else {
+    if (listAge){
+        let list = listAge.split('-')
+        console.log(list, 'list')    
+        res.render('bookings', {slots, list})
+    } else {
 
-    // }
         res.render('bookings', { slots });
+    }
 
 });
-
-// router.post('/schedule', requireAuth, (req, res) => {
-//     Schedule.create(req.user, req.body)
-//         .then(_ => { res.redirect("/schedule") })
-//         .catch(msg => {
-//             res.render('schedule', {
-//                 messageClass: 'alert-danger',
-//                 message: msg
-//             })
-//         })
-// });
+router.post('/bookings', requireAuth, async (req, res) => {
+    await Booking.destroy({ where: { slotId: req.body.bookingId } });
+    res.send('Nice');
+});
 
 module.exports = router;

@@ -27,6 +27,7 @@ app.use(express.static('public'));
 
 // Register middlewares
 app.use(bodyParser.urlencoded({ extended: true })); // parse POST data
+app.use(bodyParser.json());
 app.use(cookieParser('secret'));
 app.use(getSessionUser);
 

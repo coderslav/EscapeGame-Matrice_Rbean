@@ -1,4 +1,25 @@
-<div style='margin-top: 30px'>
+{{#if list}}
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel"  data-backdrop="static" >
+  <div class="modal-dialog" >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Les joueurs suivants ne respectent pas les conditions d'âge :</h5>
+      </div>
+      <div class="modal-body">
+          <ul>
+        {{#each list}}
+        <li>{{this}}</li>
+        {{/each}}
+          </ul>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-secondary" href="javascript:history.back()">Retour</a>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div style='margin-top: 30px'>
     <h1 class='text-center mb-5'>Mes réservations</h1>
 
     {{#if slots.length}}
@@ -9,11 +30,7 @@
                     <th>Créneau</th>
                     <th>Joueurs</th>
                 </tr>
-            </thead>
-            {{! if (listDepr){
-                dsfsdfsd
-            } }}
-            
+            </thead> 
             {{#each slots}}
 
                 <tr>
@@ -25,6 +42,7 @@
                             {{lastName}}<br />
                         {{/each}}
                     </td>
+                    <td><button type='button' value='{{id}}' class='btn btn-danger annulationButton'>Annuler</button></td>
                 </tr>
             {{/each}}
         </table>
@@ -33,35 +51,53 @@
     {{/if}}
 </div>
 
-<button type="button" id="buttonModal"class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-  Launch demo modal
-</button>
+{{else}}
 
-<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
+
+
+{{!-- ---------------------------------------------------------------------------}}
+
+
+<div style='margin-top: 30px'>
+    <h1 class='text-center mb-5'>Mes réservations</h1>
+
+    {{#if slots.length}}
+        <table class='table mb-5'>
+            <thead>
+                <tr>
+                    <th>Jour</th>
+                    <th>Créneau</th>
+                    <th>Joueurs</th>
+                </tr>
+            </thead> 
+            {{#each slots}}
+
+                <tr>
+                    <td>{{getDate during}}</td>
+                    <td>{{slotToStr during}}</td>
+                    <td>
+                        {{#each players}}
+                            {{firstName}}
+                            {{lastName}}<br />
+                        {{/each}}
+                    </td>
+                    <td><button type='button' value='{{id}}' class='btn btn-danger annulationButton'>Annuler</button></td>
+                </tr>
+            {{/each}}
+        </table>
+    {{else}}
+        Vous n'avez pas encore fait de réservations.
+    {{/if}}
 </div>
+
+{{/if}}
 
 <script>
 $(document).ready(function(){
-   $("#myModal").modal();
+    $("#myModal").focus();
+    $("#myModal").modal('toggle');
 });
 </script>
 
 
-{{!-- <script src="/js/booking.js"></script> --}}
+<script src='/js/bookings.js'></script>
