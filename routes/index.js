@@ -90,18 +90,23 @@ router.post('/get-current-user', requireAuth, async (req, res) => {
     });
 });
 router.get('/admin', requireAdmin, async (req, res) => {
-    const users = User.findAll();
-    const rooms = Room.findAll();
-    const slots = Slot.findAll();
-    const bookings = Booking.findAll();
-    const players = Player.findAll();
+    const rooms = await Room.findAll({ raw: true });
+    const slots = await Slot.findAll({ raw: true });
+    const bookings = await Booking.findAll({ raw: true });
+    console.log(rooms);
+    console.log(slots);
+    console.log(bookings);
     res.render('admin', {
-        users,
         rooms,
         slots,
         bookings,
-        players,
     });
+});
+
+router.get('/admin/edit/room/:id/', requireAdmin, async (req, res) => {
+    const room = await Room.findOne({ where: { id: req.params.id }, raw: true });
+    console.log(room);
+    res.render('adminRoomEditing', { room })
 });
 
 module.exports = router;
