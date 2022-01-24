@@ -14,7 +14,7 @@ module.exports = {
 //          capacity: [{ value: "4", inclusive: true }, { value: "7", inclusive: true }],
           createdAt: new Date(),
           updatedAt: new Date(),
-          imgUrl: 'https://w7.pngwing.com/pngs/523/86/png-transparent-escape-room-game-escape-the-room-goes-escape-room-palermo-thumbnail.png'
+          imgUrl: 'https://freepikpsd.com/file/2019/10/ghostbusters-logo-png-picture-27-Transparent-Images.png'
         },
         {
           name: 'Inspecteur Gadget',
@@ -22,7 +22,7 @@ module.exports = {
           price: 80,
           ageLimit: 8,
           capacity: "(3, 5)",
-          imgUrl: 'https://w7.pngwing.com/pngs/523/86/png-transparent-escape-room-game-escape-the-room-goes-escape-room-palermo-thumbnail.png',
+          imgUrl: 'https://m.media-amazon.com/images/I/51DMML9TTvL._AC_SX355_.jpg',
 
 //          capacity: [{ value: 3, inclusive: true }, { value: 5, inclusive: true }],
           createdAt: new Date(),
@@ -37,3 +37,5 @@ module.exports = {
     await queryInterface.bulkDelete('rooms', null, {});
   }
 };
+
+

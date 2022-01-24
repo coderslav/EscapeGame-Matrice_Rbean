@@ -7,6 +7,7 @@
 // $(document).ready(function () {
 //     //your code here
 //   });
-jQuery.noConflict(); 
-jQuery('#myModal').modal('show'); 
-// $('#myModal').modal('show'); 
+
+$(document).ready(function(){
+   $("#myModal").modal();
+});

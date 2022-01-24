@@ -1,37 +1,19 @@
-{{!-- <div style="margin-top: 30px">
-    <h1 class="text-center mb-5">Display all rooms</h1>
-
-    <table class="table mb-5">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Capacity</th>
-            </tr>
-        </thead>
+<div class="container">
+    <div class="row">
         {{#each rooms}}
-            <tr>
-                <td><a href="/room/{{id}}" class="card-title">{{name}}</a>
-                <img src={{imgUrl}} height="100px"></td>
-                <td>{{description}}</td>
-                <td>{{price}}</td>
-                <td>{{capacity.[0].value}} à {{capacity.[1].value}} joueurs</td>
-            </tr>
-        {{/each}}
-    </table>
-</div> --}}
-
-<div class="card-group mt-5">
-    {{#each rooms}}
-        <div class="card mr-2">
-            <img class="card-img-top" src={{imgUrl}} height="100px" alt="Card image cap">
-            <div class="card-body">
-            <h2><a href="/room/{{id}}" class="card-title stretched-link">{{name}}</a></h2>
-            <p class="card-text">{{description}}</p>
-            <p class="card-text">{{capacity.[0].value}} à {{capacity.[1].value}} joueurs</p>
-            <p class="card-text">{{price}}€</p>
+            <div class="col d-flex justify-content-around mb-1 mt-3" style="text-align: center">
+                <div class="card-group mt-5">
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src={{imgUrl}}  alt="Card image cap">
+                                <div class="card-body">
+                                    <h2 class="card-title"><a href="/room/{{id}}" class="card-title stretched-link">{{name}}</a></h2>
+                                    <p class="card-text align-text-bottom">{{description}}</p>
+                                    <p class="card-text">{{capacity.[0].value}} à {{capacity.[1].value}} joueurs</p>
+                                    <p class="card-text">{{price}}€</p>
+                                </div>
+                        </div>
+                </div>
             </div>
-        </div>
-    {{/each}}
+        {{/each}}
+    </div>
 </div>
