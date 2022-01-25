@@ -104,9 +104,9 @@ router.get('/admin', requireAdmin, async (req, res) => {
 });
 
 router.get('/admin/edit/room/:id/', requireAdmin, async (req, res) => {
-    const room = await Room.findOne({ where: { id: req.params.id }, raw: true });
-    console.log(room);
-    res.render('adminRoomEditing', { room })
+    const room = await Room.findOne({ where: { id: req.params.id }, raw: true, nest: true, include: { model: Slot, as: 'slots', include: { model: User, as: 'users' } } });
+    console.log(JSON.stringify(room, null, 2));
+    res.render('adminRoomEditing', { room });
 });
 
 module.exports = router;

@@ -19,7 +19,7 @@
                 <td class="align-middle text-center">{{price}}</td>
                 <td class="align-middle text-center">{{capacity.0.value}} à {{capacity.1.value}} joueurs</td>
                 <td class="align-middle text-center">
-                    {{#each ../slots}}
+                    {{#each slots}}
                         {{#compare roomId ../id}}
                             {{#each ../../../bookings}}
                                 {{#compare slotId ../../id}}
