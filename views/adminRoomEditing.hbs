@@ -1,33 +1,34 @@
-<form method='POST'>
+<form method='POST' id='inputForm'>
     <h1 class='text-center mb-5 mt-3'><b>Édition salle: "{{room.name}}"</b></h1>
     <div class='form-group'>
         <label>Nom de la salle</label>
-        <input name='roomName' type='text' placeholder={{room.name}} class='form-control' />
+        <input name='name' type='text' placeholder='{{room.name}}' class='form-control input-set' />
     </div>
     <div class='form-group'>
         <label>Description</label>
-        <textarea name='description' class='form-control' placeholder={{room.description}}></textarea>
+        <textarea name='description' class='form-control input-set' placeholder='{{room.description}}'></textarea>
     </div>
     <div class='form-group'>
         <label>Prix</label>
-        <input name='price' type='number' placeholder={{room.price}} class='form-control' />
+        <input name='price' type='number' placeholder='{{room.price}}' class='form-control input-set' />
     </div>
     <div class='form-group'>
         <label>Limite d'âge</label>
-        <input name='ageLimit' type='number' placeholder={{room.ageLimit}} class='form-control' />
+        <input name='ageLimit' type='number' placeholder='{{room.ageLimit}}' class='form-control input-set' />
     </div>
     <div class='form-group'>
         <div class='form-group row'>
             <label for='de' class='col-sm-2 control-label pt-2'>Capacité de</label>
             <div class='col-md-2'>
-                <input name='ageLimitDe' id='de' type='number' placeholder={{getMinCapacity room.capacity}} class='form-control' />
+                <input name='capacityFrom' id='inputFrom' type='number' placeholder='{{getMinCapacity room.capacity}}' class='form-control input-set' />
             </div>
             <label for='a' class='col-sm-1 control-label text-center pt-2'>à</label>
             <div class='col-md-2'>
-                <input name='ageLimitA' id='a' type='number' placeholder={{getMaxCapacity room.capacity}} class='form-control' />
+                <input name='capacityTo' id='inputTo' type='number' placeholder='{{getMaxCapacity room.capacity}}' class='form-control input-set' />
             </div>
             <span class='col-sm pt-2'>personnes</span>
         </div>
     </div>
-    <button type='submit' class='mt-5 btn btn-primary'>Confirmer</button>
+    <button type='submit' id='adminRoomSubmitBtn' disabled class='mt-5 btn btn-primary'>Confirmer</button>
 </form>
+<script src='/js/adminRoomEditing.js'></script>

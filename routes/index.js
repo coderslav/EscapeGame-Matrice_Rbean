@@ -90,23 +90,39 @@ router.post('/get-current-user', requireAuth, async (req, res) => {
     });
 });
 router.get('/admin', requireAdmin, async (req, res) => {
-    const rooms = await Room.findAll({ raw: true });
-    const slots = await Slot.findAll({ raw: true });
-    const bookings = await Booking.findAll({ raw: true });
-    console.log(rooms);
-    console.log(slots);
-    console.log(bookings);
+    const rooms = JSON.parse(JSON.stringify(await Room.findAll({ include: { all: true, nested: true } })));
     res.render('admin', {
         rooms,
-        slots,
-        bookings,
     });
 });
 
 router.get('/admin/edit/room/:id/', requireAdmin, async (req, res) => {
-    const room = await Room.findOne({ where: { id: req.params.id }, raw: true, nest: true, include: { model: Slot, as: 'slots', include: { model: User, as: 'users' } } });
-    console.log(JSON.stringify(room, null, 2));
+    const room = JSON.parse(JSON.stringify(await Room.findOne({ where: { id: req.params.id }, include: { all: true, nested: true } })));
     res.render('adminRoomEditing', { room });
+});
+router.post('/admin/edit/room/:id/', requireAdmin, async (req, res) => {
+    let bodyObjectKeys = Object.keys(req.body);
+    if (bodyObjectKeys.length > 0) {
+        for (let index = 0; index < bodyObjectKeys.length; index++) {
+            if (!req.body[bodyObjectKeys[index]]) {
+                delete req.body[bodyObjectKeys[index]];
+            }
+        }
+        if (req.body.capacityFrom || req.body.capacityTo) {
+            req.body.capacity = [req.body.capacityFrom, req.body.capacityTo];
+            delete req.body.capacityFrom;
+            delete req.body.capacityTo;
+        }
+        await Room.update(req.body, { where: { id: req.params.id } });
+        let newRoom = JSON.parse(JSON.stringify(await Room.findOne({ where: { id: req.params.id }, include: { all: true, nested: true } })));
+        res.render('adminRoomEditing', {
+            room: newRoom,
+            messageClass: 'alert-success',
+            message: 'Done!',
+        });
+    } else {
+        res.redirect(`/admin/edit/room/${req.params.id}/`);
+    }
 });
 
 module.exports = router;

@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             this.belongsTo(models.Room, { as: 'room' });
-            this.belongsToMany(models.User, { through: models.Booking, as: 'users', foreignKey: { name: 'slotId' }, onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+            this.belongsToMany(models.User, { through: models.Booking, foreignKey: { name: 'slotId' }, onDelete: 'CASCADE', onUpdate: 'CASCADE' });
         }
     }
     Slot.init(
