@@ -1,10 +1,3 @@
-function clearPlayers() {
-    const formPlayers = document.getElementById('formPlayers');
-    formPlayers.innerHTML = '';
-
-    return formPlayers;
-}
-
 function createNthPlayer(n) {
     let htmlPlayer;
     if (n === 0) {
@@ -56,7 +49,7 @@ function createNthPlayer(n) {
 
 async function getUser(firstName, lastName) {
     await fetch('/get-current-user', {
-        method: 'POST'
+        method: 'POST',
     })
         .then((response) => response.json())
         .then((data) => {
@@ -67,17 +60,17 @@ async function getUser(firstName, lastName) {
 }
 
 document.addEventListener('DOMContentLoaded', function (event) {
-    const selectPlayers = document.getElementById('nbPlayers');
-    selectPlayers.addEventListener('change', (e) => {
-        const formPlayers = clearPlayers();
+    nbPlayers.addEventListener('change', (e) => {
+        formPlayers.innerHTML = '';
+        formElement.lastChild.remove();
         for (let i = 0; i < e.target.value; i += 1) {
             formPlayers.insertAdjacentHTML('beforeend', createNthPlayer(i));
+            if (i === e.target.value - 1) {
+                formElement.insertAdjacentHTML('beforeend', '<button type="submit" class="mt-5 btn btn-primary">Confirmer</button>');
+            }
         }
-        const currentUserCheckBox = document.getElementById('defaultCheck1');
-        const firstPlayerName = document.getElementById('firstPlayerName');
-        const firstPlayerLastName = document.getElementById('firstPlayerLastName');
-        currentUserCheckBox.addEventListener('change', () => {
-            if (!currentUserCheckBox.checked) {
+        defaultCheck1.addEventListener('change', () => {
+            if (!defaultCheck1.checked) {
                 firstPlayerName.value = '';
                 firstPlayerLastName.value = '';
             } else {
@@ -86,3 +79,5 @@ document.addEventListener('DOMContentLoaded', function (event) {
         });
     });
 });
+
+setTimeout(() => {}, timeout);

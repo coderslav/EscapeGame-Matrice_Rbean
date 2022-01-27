@@ -25,13 +25,5 @@ module.exports = {
         toJSON: (obj) => {
             return JSON.stringify(obj, null, 3);
         },
-        compare: (firstData, secondData, options) => {
-            let result = firstData === secondData;
-            if (result) {
-                return options.fn(this);
-            } else {
-                return options.inverse(this);
-            }
-        },
     },
 };

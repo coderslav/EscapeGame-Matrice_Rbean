@@ -12,21 +12,25 @@
                 <a class='navbar-brand' href='/'><b>Home</b></a>
                 <div>
                     {{#if user}}
+                        <span style='color: white; font-weight: bold; margin-right: 1rem;'><i>{{username}}</i></span>
                         {{#if isAdmin}}
                             <a class='nav-item btn btn-warning' style='background-color: rgb(255, 145, 0); border-color:rgb(255, 145, 0); color: white;' href='/admin'>Tableau de bord de l'administrateur de jeux</a>
                         {{/if}}
                         <a class='nav-item btn btn-info' href='/bookings'>Voir mes réservations</a>
                         <a class='nav-item btn btn-danger' href='/logout'>Déconnexion</a>
                     {{else}}
-                        <a class='nav-item btn btn-success' href='/logout'>Connexion</a>
+                        <a class='nav-item btn btn-success' href='/login'>Connexion</a>
                     {{/if}}
                 </div>
             </nav>
 
             {{#if message}}
-                <div class='alert {{messageClass}} mt-4' role='alert'>
+                <div class='alert {{messageClass}} mt-4' style='text-align: center;' id='messageElement' role='alert'>
                     {{message}}
                 </div>
+                <script id='scriptElement'>
+                    setTimeout(() => { messageElement.remove(); scriptElement.remove(); }, 4000);
+                </script>
             {{/if}}
 
             {{{body}}}

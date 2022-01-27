@@ -1,5 +1,5 @@
 const { requireAuth, requireAnon, unsetAuthToken } = require('../helpers/auth');
-const { User, Schedule } = require('../models');
+const { User, Room } = require('../models');
 
 const express = require('express');
 const router = express.Router();
@@ -8,12 +8,21 @@ router.get('/login', requireAnon, (req, res) => {
     res.render('login');
 });
 
-router.post('/login', requireAnon, (req, res) => {
+router.post('/login', requireAnon, async (req, res) => {
     const { email, password } = req.body;
 
     User.authenticate(email, password, res)
-        .then((_) => {
-            res.redirect('/');
+        .then((userData) => {
+            Room.findAll({ raw: true }).then((rooms) => {
+                res.render('home', {
+                    rooms,
+                    messageClass: 'alert-success',
+                    message: `Bonjour, ${userData.firstName}!`,
+                    user: userData.user,
+                    isAdmin: userData.isAdmin,
+                    username: userData.firstName,
+                });
+            });
         })
         .catch((msg) => {
             res.render('login', {
@@ -23,7 +32,7 @@ router.post('/login', requireAnon, (req, res) => {
         });
 });
 
-router.get('/logout', requireAuth, (req, res) => {
+router.get('/logout', requireAuth, async (req, res) => {
     unsetAuthToken(req, res);
     res.redirect('/');
 });
@@ -32,7 +41,7 @@ router.get('/signup', (req, res) => {
     res.render('signup');
 });
 
-router.post('/signup', (req, res) => {
+router.post('/signup', async (req, res) => {
     console.log(req.body);
     User.new(req.body)
         .then((_) => {
