@@ -1,10 +1,3 @@
-function clearPlayers() {
-    const formPlayers = document.getElementById('formPlayers');
-    formPlayers.innerHTML = '';
-
-    return formPlayers;
-}
-
 function createNthPlayer(n) {
     let htmlPlayer;
     if (n === 0) {
@@ -56,7 +49,7 @@ function createNthPlayer(n) {
 
 async function getUser(firstName, lastName) {
     await fetch('/get-current-user', {
-        method: 'POST'
+        method: 'POST',
     })
         .then((response) => response.json())
         .then((data) => {
@@ -67,81 +60,36 @@ async function getUser(firstName, lastName) {
 }
 
 document.addEventListener('DOMContentLoaded', function (event) {
-    // const myForm = document.getElementById('myForm');
-    // const fName= document.getElementById('firstPlayerName')
-    const selectPlayers = document.getElementById('nbPlayers');
-    selectPlayers.addEventListener('change', (e) => {
-        // let formData = new FormData(myForm);
-        // formData.append(fName, 'Chris');
-        // console.log(formData, 'formdata')
-        const formPlayers = clearPlayers();
+    nbPlayers.addEventListener('change', (e) => {
+        formPlayers.innerHTML = '';
+        formElement.lastChild.remove();
         for (let i = 0; i < e.target.value; i += 1) {
             formPlayers.insertAdjacentHTML('beforeend', createNthPlayer(i));
+            if (i === e.target.value - 1) {
+                formElement.insertAdjacentHTML('beforeend', '<button type="submit" class="mt-5 btn btn-primary">Confirmer</button>');
+            }
         }
-
-        //Checkbox value
-        const currentUserCheckBox = document.getElementById('defaultCheck1');
-        const firstPlayerName = document.getElementById('firstPlayerName');
-        const firstPlayerLastName = document.getElementById('firstPlayerLastName');
-        currentUserCheckBox.addEventListener('change', () => {
-            if (!currentUserCheckBox.checked) {
+        defaultCheck1.addEventListener('change', () => {
+            if (!defaultCheck1.checked) {
                 firstPlayerName.value = '';
                 firstPlayerLastName.value = '';
             } else {
                 getUser(firstPlayerName, firstPlayerLastName);
             }
         });
-        //end checkbox
-
-        //get input value
-        // const arr = [];
-        // const checkVal = document.querySelector('.inputVal');
-        // checkVal.addEventListener("change", myEvent);
-        // function myEvent(e){
-        //     console.log(e.target.value, 'value myevent')
-        //     let valueInput = e.target.value;
-        //     if (valueInput !== ''){
-        //         arr.push({name1 : e.target.value})
-        //     }
-        //     console.log(arr, 'arr')
-        // }
 
         const arr = [];
-        // var container = document.querySelector("#test");
-        var checkVal = document.querySelectorAll("input.firstInput, inputVal");
-        console.log(checkVal, 'check')
-        // const checkVal = document.querySelector('.inputVal');
-        checkVal.forEach(val =>{
-            console.log(val, 'valllll')
-            // console.log(createNthPlayer())
-            val.addEventListener("change", (e)=>{
-                console.log(e.target.value, 'value myevent')
+        var checkVal = document.querySelectorAll('input.firstInput, inputVal');
+        checkVal.forEach((val) => {
+            val.addEventListener('change', (e) => {
                 let valueInput = e.target.value;
-                if (valueInput !== ''){
+                if (valueInput !== '') {
                     arr.push({
-                        firstName : valueInput,
-                        lastName: valueInput
-                    })
+                        firstName: valueInput,
+                        lastName: valueInput,
+                    });
                 }
-                console.log(arr, 'arr')
             });
-        })
-            // console.log(checkVal[i], "iiiii")
-            // addEventListener("change", myEvent);
-        //     function myEvent(e){
-        //         console.log(e.target.value, 'value myevent')
-        //         let valueInput = e.target.value;
-        //         if (valueInput !== ''){
-        //             arr.push({
-        //                 firstName : valueInput,
-        //                 lastName: valueInput
-        //             })
-        //         }
-        //         console.log(arr, 'arr')
-        // }
-
-        //end get input value
+        });
     });
 });
-
-

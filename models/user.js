@@ -11,11 +11,15 @@ module.exports = (sequelize, DataTypes) => {
 
         static async authenticate(email, rawPassword, res) {
             const password = getHashedPassword(rawPassword);
-            const result = await User.findOne({ where: { email, password }, attributes: ['id', 'isAdmin'] });
+            const result = await User.findOne({ where: { email, password }, attributes: ['id', 'isAdmin', 'firstName'] });
 
             if (result) {
-                setAuthToken(result.id, res, result.isAdmin);
-                return true;
+                setAuthToken(result.id, res, result.isAdmin, result.firstName);
+                return {
+                    firstName: result.firstName,
+                    isAdmin: result.isAdmin,
+                    user: result.id,
+                };
             } else {
                 throw 'Invalid username or password';
             }

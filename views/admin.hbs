@@ -1,22 +1,37 @@
 <div style='margin-top: 30px'>
-    <h1 class='text-center mb-5'>Rooms</h1>
+    <h1 class='text-center mb-5'>Rooms Dashboard</h1>
 
     <table class='table mb-5'>
-        <thead>
+        <thead class='thead-dark'>
             <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Capacity</th>
+                <th class='text-center'>Name</th>
+                <th class='text-center'>Description</th>
+                <th class='text-center'>Price</th>
+                <th class='text-center'>Capacity</th>
+                <th class='text-center'>Image</th>
+                <th class='text-center'>Slots</th>
+                <th class='text-center'></th>
             </tr>
         </thead>
         {{#each rooms}}
             <tr>
-                <td><a href='/room/{{id}}'>{{name}}</a></td>
-                <td>{{description}}</td>
-                <td>{{price}}</td>
-                <td>{{capacity.0.value}} à {{capacity.1.value}} joueurs</td>
+                <td class='align-middle text-center'>{{name}}</td>
+                <td class='align-middle text-center'>{{description}}</td>
+                <td class='align-middle text-center'>{{price}}</td>
+                <td class='align-middle text-center'>{{capacity.0.value}} à {{capacity.1.value}} joueurs</td>
+                <td class='align-middle text-center'><img src='{{imgUrl}}' style='width: 50%;' alt='image' /></td>
+                <td class='align-middle text-center'>
+                    {{#each slots}}
+                        {{#if Users}}
+                            <div class='border border-danger mt-1 mb-1 p-1 rounded'>{{getDate during}} {{slotToStr during}}</div>
+                        {{else}}
+                            <div class='border border-success mt-1 mb-1 p-1 rounded'>{{getDate during}} {{slotToStr during}}</div>
+                        {{/if}}
+                    {{/each}}
+                </td>
+                <td class='align-middle'><a href='admin/edit/room/{{id}}/' class='btn btn-primary'>Éditer</a></td>
             </tr>
         {{/each}}
     </table>
+
 </div>

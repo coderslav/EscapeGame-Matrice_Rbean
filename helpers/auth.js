@@ -22,14 +22,15 @@ const authTokens = {};
                 authTokens[tokenString[0]] = {
                     userId: tokenString[1],
                     isAdmin: tokenString[2],
+                    firstName: tokenString[3],
                 };
             }
         });
     });
 })();
 
-const writeTokenToDisk = (token, user_id, isAdmin) => {
-    const tokenString = token + ':' + user_id.toString() + ':' + isAdmin.toString() + '\n';
+const writeTokenToDisk = (token, user_id, isAdmin, firstName) => {
+    const tokenString = token + ':' + user_id.toString() + ':' + isAdmin.toString() + ':' + firstName.toString() + '\n';
 
     fs.appendFile(TOKENSFILE, tokenString, (err) => {
         if (err) {
@@ -60,13 +61,14 @@ const generateAuthToken = () => {
 };
 
 module.exports = {
-    setAuthToken: (userId, res, isAdmin) => {
+    setAuthToken: (userId, res, isAdmin, firstName) => {
         const authToken = generateAuthToken();
 
-        writeTokenToDisk(authToken, userId, isAdmin);
+        writeTokenToDisk(authToken, userId, isAdmin, firstName);
         authTokens[authToken] = {
             userId,
-            isAdmin
+            isAdmin,
+            firstName,
         };
         res.cookie('AuthToken', authToken);
     },
@@ -83,8 +85,10 @@ module.exports = {
         const authToken = req.cookies['AuthToken'];
         req.user = authTokens[authToken] ? authTokens[authToken].userId : false;
         req.isAdmin = authTokens[authToken] ? authTokens[authToken].isAdmin : false;
+        req.username = authTokens[authToken] ? authTokens[authToken].firstName : false;
         res.locals.user = req.user; // to retrieve the user in the template
         res.locals.isAdmin = req.isAdmin; // to retrieve the isAdmin in the template
+        res.locals.username = req.username; // to retrieve the isAdmin in the template
         next();
     },
 

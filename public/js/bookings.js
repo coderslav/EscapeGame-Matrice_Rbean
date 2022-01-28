@@ -9,7 +9,7 @@ async function annulateBooking(index, bookingId) {
     })
         .then((response) => {
             if (response.ok) {
-                console.log(annulationButtons[index].parentElement.parentElement.remove());
+                annulationButtons[index].parentElement.parentElement.remove();
             } else {
                 console.log('Response not ok');
             }

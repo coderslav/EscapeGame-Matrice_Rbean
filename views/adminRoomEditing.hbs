@@ -1,0 +1,77 @@
+<h1 class='text-center mb-5 mt-3'><b>Édition salle: "{{room.name}}"</b></h1>
+<form method='POST' id='inputForm' class='border p-3'>
+    <div class='form-group'>
+        <label>Nom de la salle</label>
+        <input name='name' type='text' placeholder='{{room.name}}' class='form-control input-set' />
+    </div>
+    <div class='form-group'>
+        <label>Description</label>
+        <textarea name='description' class='form-control input-set' placeholder='{{room.description}}'></textarea>
+    </div>
+    <div class='form-group'>
+        <label>Image</label>
+        <input name='imgUrl' type='text' placeholder='{{room.imgUrl}}' class='form-control input-set' />
+    </div>
+    <div class='form-group'>
+        <label>Prix</label>
+        <input name='price' type='number' placeholder='{{room.price}}' class='form-control input-set' />
+    </div>
+    <div class='form-group'>
+        <label>Limite d'âge</label>
+        <input name='ageLimit' type='number' placeholder='{{room.ageLimit}}' class='form-control input-set' />
+    </div>
+    <div class='form-group'>
+        <div class='form-group row'>
+            <label for='de' class='col-sm-2 control-label pt-2'>Capacité de</label>
+            <div class='col-md-2'>
+                <input name='capacityFrom' id='inputFrom' type='number' placeholder='{{getMinCapacity room.capacity}}' class='form-control input-set' />
+            </div>
+            <label for='a' class='col-sm-1 control-label text-center pt-2'>à</label>
+            <div class='col-md-2'>
+                <input name='capacityTo' id='inputTo' type='number' placeholder='{{getMaxCapacity room.capacity}}' class='form-control input-set' />
+            </div>
+            <span class='col-sm pt-2'>personnes</span>
+        </div>
+    </div>
+    <button type='submit' id='adminRoomSubmitBtn' disabled class='btn btn-primary'>Modifier</button>
+</form>
+<div class='border p-3 mb-3' id='slotsWrapper'>
+    <div>Slots</div>
+    <div id='editableSlots'>
+        {{#each room.slots}}
+            {{#unless Users}}
+                <div id='slotWrap_{{id}}' class='editable'>
+                    <div class='border border-success mt-1 mb-1 mr-4 p-1 rounded' style='display:inline-block;' id='displaySlot{{id}}'>{{getDate during}} {{slotToStr during}}</div>
+                    <button type='button' value='{{id}}' class='btn btn-warning' id='editButton{{id}}'>Éditer</button>
+                    <button type='button' value='{{id}}' class='btn btn-danger' id='deleteButton{{id}}'>Supprimer</button>
+                </div>
+            {{/unless}}
+        {{/each}}
+    </div>
+    <div id='notEditableSlots'>
+        {{#each room.slots}}
+            {{#if Users}}
+                <div>
+                    <div class='border border-danger mt-1 mb-1 mr-4 p-1 rounded' style='display:inline-block;'>{{getDate during}} {{slotToStr during}}</div>
+                </div>
+            {{/if}}
+        {{/each}}
+    </div>
+    <form id='addSlotForm' method='POST' class='mt-4'>
+        <div class='d-inline-block style="width: max-content;"'>
+            <div class='form-group'>
+                <label for='de' style='width: max-content;' class='col-sm-2 control-label pt-2'>De</label>
+                <div class='col-md-2 d-inline'>
+                    <input name='timeFrom' id='inputTimeFrom' style='width: max-content;' type='datetime-local' required='required' class='form-control input-set d-inline' />
+                </div>
+                <label for='a' style='width: max-content;' class='col-sm-1 control-label text-center pt-2'>à</label>
+                <div class='col-md-2 d-inline'>
+                    <input name='timeTo' id='inputTimeTo' style='width: max-content;' type='datetime-local' required='required' class='form-control input-set d-inline' />
+                </div>
+                <input name='roomId' value='{{room.id}}' style='width: max-content;' type='number' class='form-control input-set d-none' />
+            </div>
+        </div>
+        <button type='submit' id='addButton' value='{{room.id}}' class='btn btn-success'>Ajouter</button>
+    </form>
+</div>
+<script src='/js/adminRoomEditing.js'></script>
