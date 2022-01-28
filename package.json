@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jasmine-browser-runner runSpecs" 
   },
   "author": "Laurie Mézard @Rbean",
   "dependencies": {
@@ -20,6 +20,8 @@
     "sequelize-cli": "^6.2.0"
   },
   "devDependencies": {
+    "jasmine-browser-runner": "^1.0.0",
+    "jasmine-core": "^4.0.0",
     "nodemon": "^2.0.14"
   }
 }

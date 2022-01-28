@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 const fs = require('fs');
 
-const TOKENSFILE = ".cookies";
+const TOKENSFILE = '.cookies';
 const authTokens = {};
 
 // we load cookies from the disk, though in production we'd likely store them in the DB or redis
@@ -10,56 +10,64 @@ const authTokens = {};
 (function loadTokensFromDisk() {
     fs.stat(TOKENSFILE, (err, fd) => {
         if (err) {
-            console.error("Error accessing tokens file", TOKENSFILE);
+            console.error('Error accessing tokens file', TOKENSFILE);
             return;
         }
-        fs.readFile(TOKENSFILE, "utf-8", (err, res) => {
-            const lines = res.split("\n").filter(line => { if (line != '') return line }); // REPASSER SUR CA
+        fs.readFile(TOKENSFILE, 'utf-8', (err, res) => {
+            const lines = res.split('\n').filter((line) => {
+                if (line != '') return line;
+            }); // REPASSER SUR CA
             for (let line of lines) {
-                const tokenString = line.split(":");
-                authTokens[tokenString[0]] = tokenString[1];
+                const tokenString = line.split(':');
+                authTokens[tokenString[0]] = {
+                    userId: tokenString[1],
+                    isAdmin: tokenString[2],
+                };
             }
-        })
-    })
+        });
+    });
 })();
 
-const writeTokenToDisk = (token, user_id) => {
-    const tokenString = token + ":" + user_id.toString() + "\n";
+const writeTokenToDisk = (token, user_id, isAdmin) => {
+    const tokenString = token + ':' + user_id.toString() + ':' + isAdmin.toString() + '\n';
 
-    fs.appendFile(TOKENSFILE, tokenString, err => {
+    fs.appendFile(TOKENSFILE, tokenString, (err) => {
         if (err) {
-            console.log("Error writing to tokens file", TOKENSFILE);
+            console.log('Error writing to tokens file', TOKENSFILE);
         }
-    })
-}
+    });
+};
 
 const deleteTokenFromDisk = (token) => {
-    fs.readFile(TOKENSFILE, "utf-8", (err, res) => {
+    fs.readFile(TOKENSFILE, 'utf-8', (err, res) => {
         if (err) {
-            console.log("Error reading tokens file", TOKENSFILE);
-        }
-        else {
-            const data = res.split("\n").filter(line => { if (!line.startsWith(token)) return line });
-            fs.writeFile(TOKENSFILE, data.join("\n"), err => {
+            console.log('Error reading tokens file', TOKENSFILE);
+        } else {
+            const data = res.split('\n').filter((line) => {
+                if (!line.startsWith(token)) return line;
+            });
+            fs.writeFile(TOKENSFILE, data.join('\n'), (err) => {
                 if (err) {
-                    console.log("Error writing to tokens file", TOKENSFILE);
+                    console.log('Error writing to tokens file', TOKENSFILE);
                 }
-            })
+            });
         }
-    })
-}
+    });
+};
 
 const generateAuthToken = () => {
     return crypto.randomBytes(30).toString('hex');
-}
+};
 
 module.exports = {
+    setAuthToken: (userId, res, isAdmin) => {
+        const authToken = generateAuthToken();
 
-    setAuthToken: (userId, res) => {
-        const authToken = generateAuthToken() + userId;
-
-        writeTokenToDisk(authToken, userId);
-        authTokens[authToken] = userId;
+        writeTokenToDisk(authToken, userId, isAdmin);
+        authTokens[authToken] = {
+            userId,
+            isAdmin
+        };
         res.cookie('AuthToken', authToken);
     },
 
@@ -73,9 +81,10 @@ module.exports = {
 
     getSessionUser: (req, res, next) => {
         const authToken = req.cookies['AuthToken'];
-
-        req.user = authTokens[authToken];
-        res.locals.user = req.user;     // to retrieve the user in the template
+        req.user = authTokens[authToken] ? authTokens[authToken].userId : false;
+        req.isAdmin = authTokens[authToken] ? authTokens[authToken].isAdmin : false;
+        res.locals.user = req.user; // to retrieve the user in the template
+        res.locals.isAdmin = req.isAdmin; // to retrieve the isAdmin in the template
         next();
     },
 
@@ -83,22 +92,27 @@ module.exports = {
         if (req.user) {
             next();
         } else {
-            res.redirect("/login");
+            res.redirect('/login');
         }
     },
 
     requireAnon: (req, res, next) => {
         if (req.user) {
-            res.redirect("/");
+            res.redirect('/');
         } else {
             next();
         }
     },
-
+    requireAdmin: (req, res, next) => {
+        if (req.isAdmin) {
+            next();
+        } else {
+            res.redirect('/');
+        }
+    },
     getHashedPassword: (password) => {
         const sha256 = crypto.createHash('sha256');
         const hash = sha256.update(password).digest('base64');
         return hash;
-    }
-
-}
+    },
+};
